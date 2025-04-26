@@ -206,3 +206,49 @@ function addToCart(productName, price) {
     alert(productName + " added to cart!");
 }
 </script>
+
+<!-- Modal Popup Box -->
+<div id="popup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800" id="popup-title"></h2>
+    <p class="text-gray-600 mb-6" id="popup-text"></p>
+    <button onclick="closePopup()" class="bg-gray-800 text-white px-6 py-2 rounded hover:bg-gray-700 transition">OK</button>
+  </div>
+</div>
+
+<script>
+// Add to Cart + show Popup
+function addToCart(productName, price) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({ name: productName, price: price });
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Update the cart counter immediately
+    updateCartCount();
+
+    // Show popup
+    document.getElementById('popup-title').innerText = "Added to Cart!";
+    document.getElementById('popup-text').innerText = `${productName} ($${price}) has been added to your cart.`;
+    document.getElementById('popup').classList.remove('hidden');
+}
+
+// Close popup
+function closePopup() {
+    document.getElementById('popup').classList.add('hidden');
+}
+
+// Update Cart Count
+function updateCartCount() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartCount = document.getElementById('cart-count');
+    if (cart.length > 0) {
+        cartCount.innerText = cart.length;
+        cartCount.style.display = "flex";
+    } else {
+        cartCount.style.display = "none";
+    }
+}
+
+// On page load, show correct cart count
+document.addEventListener('DOMContentLoaded', updateCartCount);
+</script>
