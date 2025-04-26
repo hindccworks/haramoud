@@ -93,14 +93,16 @@
             </div>
             <div class="hidden md:flex space-x-8">
                 <a href="#home" class="nav-link text-gray-700 hover:text-gray-900">Home</a>
-                <a href="#products" class="nav-link text-gray-700 hover:text-gray-900">Perfumes</a>
+                <a href="perfumes.html" class="nav-link text-gray-700 hover:text-gray-900">Perfumes</a>
                 <a href="#attars" class="nav-link text-gray-700 hover:text-gray-900">Attars</a>
                 <a href="#about" class="nav-link text-gray-700 hover:text-gray-900">About</a>
                 <a href="#contact" class="nav-link text-gray-700 hover:text-gray-900">Contact</a>
             </div>
             <div class="flex items-center space-x-4">
                 <i class="fas fa-search text-gray-600 hover:text-gray-900 cursor-pointer"></i>
-                <i class="fas fa-shopping-cart text-gray-600 hover:text-gray-900 cursor-pointer"></i>
+                <a href="cart.html">
+  <i class="fas fa-shopping-cart text-gray-600 hover:text-gray-900 cursor-pointer"></i>
+</a>
                 <div class="md:hidden">
                     <i class="fas fa-bars text-gray-600 hover:text-gray-900 cursor-pointer text-xl"></i>
                 </div>
@@ -470,6 +472,16 @@
                     alert('Mobile menu would open here in a complete implementation.');
                 });
             }
+
+            <script>
+function addToCart(productName, price) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({ name: productName, price: price });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(productName + " added to cart!");
+}
+</script>
+
         });
     </script>
 </body>
