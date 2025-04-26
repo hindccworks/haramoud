@@ -44,10 +44,20 @@
 
     <div id="cartItems" class="bg-white p-8 rounded-lg shadow-md mb-8"></div>
 
-    <div class="text-center">
-      <h3 id="totalAmount" class="text-2xl font-bold gold-text mb-6"></h3>
-      <button onclick="checkout()" class="bg-gray-800 text-white px-8 py-3 rounded hover:bg-gray-700 transition">Proceed to Checkout</button>
+    <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6 text-center">
+      <button onclick="clearCart()" class="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded transition">
+        Clear Cart
+      </button>
+
+      <button onclick="checkout()" class="bg-gray-800 hover:bg-gray-700 text-white px-8 py-3 rounded transition">
+        Proceed to Checkout
+      </button>
     </div>
+
+    <div class="text-center mt-8">
+      <h3 id="totalAmount" class="text-2xl font-bold gold-text"></h3>
+    </div>
+
   </div>
 </section>
 
@@ -59,6 +69,7 @@
 </footer>
 
 <script>
+// Display cart items
 function displayCart() {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     let cartItems = document.getElementById('cartItems');
@@ -79,9 +90,11 @@ function displayCart() {
         total = cart.reduce((sum, item) => sum + item.price, 0);
     }
 
-    document.getElementById('totalAmount').innerText = "Total: $" + total;
+    document.getElementById('totalAmount').innerText = cart.length > 0 ? "Total: $" + total : "";
+    updateCartCount();
 }
 
+// Remove one item
 function removeItem(index) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart.splice(index, 1);
@@ -89,6 +102,16 @@ function removeItem(index) {
     displayCart();
 }
 
+// Clear all items
+function clearCart() {
+    if (confirm("Are you sure you want to clear your entire cart?")) {
+        localStorage.removeItem('cart');
+        displayCart();
+        alert("Cart has been cleared!");
+    }
+}
+
+// Checkout function
 function checkout() {
     if (confirm("Are you sure you want to checkout?")) {
         localStorage.removeItem('cart');
@@ -97,7 +120,22 @@ function checkout() {
     }
 }
 
-displayCart();
+// Update Cart Icon Count (Optional if you have cart badge)
+function updateCartCount() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) {
+        if (cart.length > 0) {
+            cartCount.innerText = cart.length;
+            cartCount.style.display = "flex";
+        } else {
+            cartCount.style.display = "none";
+        }
+    }
+}
+
+// On page load
+document.addEventListener('DOMContentLoaded', displayCart);
 </script>
 
 </body>
